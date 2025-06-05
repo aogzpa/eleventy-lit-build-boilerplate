@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta
+			name="viewport"
+			content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+		{% set pageTitle = title %}
+		<!-- Use the 11ty data system to set the title -->
+		<title>
+			Eleventy+Lit starter
+			{% if pageTitle %}
+				- {{ pageTitle }}
+			{% endif %}
+		</title>
+
+		<!-- Set the color of the url bar on mobile to match theme -->
+		<meta
+			name="theme-color"
+			content="#ffffff">
+
+		<!-- Preconnection avoids delays in fonts rendering -->
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com">
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,400..700;1,400..700&display=swap"
+			rel="stylesheet"
+			media="print"
+			onload="this.media='all'; this.onload=null;">
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=home&display=swap"
+			rel="stylesheet"
+			media="print"
+			onload="this.media='all'; this.onload=null;">
+		<link
+			href="/images/favicon.jpg"
+			rel="icon"
+			sizes="96x96"
+			type="image/jpeg">
+
+		<!-- Inlines the global css in site/css/global.css -->
+		{% inlinecss "global.css" %}
+		<!-- MUST be loaded before any lit bundle. allows hydration of SSRd components -->
+		<script
+			type="module"
+			src="/js/ssr-utils/lit-hydrate-support.js">
+		</script>
+
+		<!-- Loads definition for <lit-island>. See docs for @11ty/is-land for usage -->
+		<script
+			type="module"
+			src="/js/ssr-utils/lit-island.js">
+		</script>
+
+		<!-- Inlines a script here. This can be useful to place logic that change the overall theme preventing FOUC -->
+		{% inlinejs "inline/change-background-color.js" %}
+
+		<noscript>
+			<link
+				rel="stylesheet"
+				href="/css/no-js.css">
+		</noscript>
+
+		<!-- dsd-pending hides body until the polyfill has run on browsers that do not support DSD -->
+		<style>
+			body[dsd-pending]
+			{
+				display: none;
+			}
+		</style>
+		<!-- If JS is disabled just show the contents without the polyfill -->
+		<noscript>
+			<style>
+				body[dsd-pending]
+				{
+					display: block !important;
+				}
+			</style>
+		</noscript>
+
+		<!-- Allows sub-templates to insert into the head -->
+		{% block head %}
+		{% endblock %}
+	</head>
+
+	<body dsd-pending>
+		<!-- Inlines the declarative shadow dom polyfill for FF since it's performance sensitive -->
+		{% inlinejs "ssr-utils/dsd-polyfill.js" %}
+
+		<main
+			id="main-content"
+			slot="app-content"
+			tabindex="0">
+			<!-- this is the content of the page -->
+			{% block content %}
+				{{ content | mdMarkdown | safe }}
+			{% endblock %}
+		</main>
+	</body>
+</html>

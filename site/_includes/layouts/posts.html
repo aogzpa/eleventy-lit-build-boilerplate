@@ -1,0 +1,24 @@
+{% extends 'default.html' %}
+
+{% block head %}
+	<link
+		rel="stylesheet"
+		href="/css/post.css">
+{% endblock %}
+
+{% block toc%}
+	{{ content | toc | safe }}
+{% endblock %}
+
+{% block content %}
+	{% if not ssrOnly %}
+		<!-- Loads page JS on idle callback at src/hydration-entrypoints/posts/md-file-name.ts -->
+		<lit-island
+			on:idle
+			import="/js/hydration-entrypoints{{ page.filePathStem }}.js">
+			{{ content | safe }}
+		</lit-island>
+	{% else %}
+		{{ content | safe }}
+	{% endif %}
+{% endblock %}

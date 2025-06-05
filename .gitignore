@@ -1,0 +1,15 @@
+node_modules
+*.js
+!commitlint.config.js
+*.css
+!**/*.css
+*.map
+*.d.ts
+!types/*.d.ts
+.wireit/
+_dev/
+_prod/
+lib/
+build/
+*.tsbuildinfo
+!src/types/**/*.d.ts

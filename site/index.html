@@ -1,0 +1,31 @@
+{% extends 'default.html' %}
+
+{% block head %}
+	<script
+		type="module"
+		src="/js/pages/home-page.js">
+	</script>
+	<link
+		rel="stylesheet"
+		href="/css/home-page.css">
+{% endblock %}
+
+{% block content %}
+	<p>
+		<a href="/posts/post-1">
+			Go to first post
+		</a>
+	</p>
+	<p>
+		<a href="/posts/post-2">
+			Go to second post
+		</a>
+	</p>
+
+	<lit-island
+		on:idle
+		import="/js/hydration-entrypoints/home-page.js">
+		<inst-sel name="drums"></inst-sel>
+		<inst-view></inst-view>
+	</lit-island>
+{% endblock %}

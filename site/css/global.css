@@ -1,0 +1,14 @@
+body
+{
+	/*
+	 * --eleventy-bg-color variable is set by inline script change-background-color.ts
+	 * before any rendering takes place
+	 */
+	background-color:	var(--eleventy-bg-color);
+	font-family:		'Roboto';
+}
+
+a
+{
+	color:			white;
+}
