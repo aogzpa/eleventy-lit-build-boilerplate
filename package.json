@@ -1,0 +1,151 @@
+{
+  "name": "eleventylit-starter",
+  "version": "1.0.0",
+  "description": "Eleventy+Lit (typescript) starter template",
+  "main": "_prod/index.html",
+  "scripts": {
+    "start": "npm run serve",
+    "dev": "npm run serve:dev --watch",
+    "serve": "wireit",
+    "serve:dev": "wireit",
+    "build:dev": "wireit",
+    "build:dev:eleventy": "wireit",
+    "build:dev:ts": "wireit",
+    "build:type-check": "wireit",
+    "build:prod": "wireit",
+    "build:prod:eleventy": "wireit",
+    "build:prod:ts": "wireit",
+    "prepare": "husky"
+  },
+  "wireit": {
+    "build:dev": {
+      "dependencies": [
+        "build:dev:eleventy",
+        "build:dev:ts",
+        "build:type-check"
+      ]
+    },
+    "build:dev:eleventy": {
+      "command": "NODE_ENV=DEV eleventy",
+      "files": [
+        "site",
+        "lib",
+        "eleventy-helpers",
+        "eleventy.config.cjs"
+      ],
+      "output": [
+        "_dev"
+      ]
+    },
+    "build:dev:ts": {
+      "command": "NODE_ENV=DEV node esbuild.config.mjs",
+      "files": [
+        "src",
+        "tsconfig.json",
+        "esbuild.config.mjs"
+      ],
+      "clean": "if-file-deleted",
+      "output": [
+        "lib"
+      ]
+    },
+    "build:type-check": {
+      "command": "tsc -p tsconfig.json --pretty --incremental",
+      "files": [
+        "src",
+        "tsconfig.json"
+      ],
+      "clean": "if-file-deleted",
+      "output": [
+        "tsconfig.tsbuildinfo"
+      ]
+    },
+    "build:prod": {
+      "dependencies": [
+        "build:prod:eleventy",
+        "build:prod:ts",
+        "build:type-check"
+      ]
+    },
+    "build:prod:eleventy": {
+      "command": "NODE_ENV=PROD eleventy",
+      "files": [
+        "site",
+        "build",
+        "eleventy-helpers",
+        "eleventy.config.cjs"
+      ],
+      "output": [
+        "_prod/"
+      ],
+      "dependencies": [
+        "build:prod:ts"
+      ]
+    },
+    "build:prod:ts": {
+      "command": "NODE_ENV=PROD node esbuild.config.mjs",
+      "files": [
+        "src",
+        "tsconfig.json",
+        "esbuild.config.mjs"
+      ],
+      "clean": "if-file-deleted",
+      "output": [
+        "build"
+      ]
+    },
+    "serve:dev": {
+      "command": "wds --watch --root-dir _dev --open",
+      "service": true,
+      "dependencies": [
+        {
+          "script": "build:dev",
+          "cascade": false
+        }
+      ]
+    },
+    "serve": {
+      "command": "wds --watch --root-dir _prod",
+      "service": true,
+      "dependencies": [
+        {
+          "script": "build:prod",
+          "cascade": false
+        }
+      ]
+    }
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@11ty/is-land": "^3.0.0",
+    "@lit-labs/ssr-client": "^1.1.1",
+    "@preact/signals-core": "^1.3.0",
+    "lit": "^2.7.4",
+    "playground-elements": "^0.17.0",
+    "postdoc-lib": "^1.0.3"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@lit-labs/eleventy-plugin-lit": "^1.0.0",
+    "@lit-labs/motion": "^1.0.3",
+    "@luncheon/esbuild-plugin-gzip": "^0.1.0",
+    "@web/dev-server": "^0.1.35",
+    "@webcomponents/template-shadowroot": "^0.2.1",
+    "cheerio": "^1.0.0-rc.12",
+    "clean-css": "^5.3.1",
+    "eleventy-plugin-compress": "^1.0.5",
+    "eleventy-plugin-nesting-toc": "^1.3.0",
+    "esbuild": "^0.17.14",
+    "esbuild-plugin-minify-html-literals": "^1.0.1",
+    "html-minifier": "^4.0.0",
+    "husky": "^9.1.7",
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.7",
+    "slugify": "^1.6.6",
+    "tiny-glob": "^0.2.9",
+    "typescript": "~5.1.6",
+    "wireit": "^0.13.0"
+  }
+}

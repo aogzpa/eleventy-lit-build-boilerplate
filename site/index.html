@@ -1,0 +1,22 @@
+{% extends 'default.html' %}
+
+{% block head %}
+  <script type="module" src="/js/pages/home-page.js"></script>
+  <link rel="stylesheet" href="/css/home-page.css">
+{% endblock %}
+
+{% block content %}
+  <p><a href="/posts/post-1">Go to first post</a></p>
+  <p><a href="/posts/post-2">Go to second post</a></p>
+
+  <img
+  class="hero-image"
+  alt="A cartoonish image that represents all components included in the boilerpalte"
+  title="Eleventy + Lit Boilerplate"
+  src="images/boilerplate.webp">
+
+  <lit-island on:idle import="/js/hydration-entrypoints/home-page.js">
+    <instrument-selector name="drums"></instrument-selector>
+    <instrument-viewer></instrument-viewer>
+  </lit-island>
+{% endblock %}
